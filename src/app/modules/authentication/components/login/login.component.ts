@@ -1,15 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { loginUser } from '../../store/action/authentication-actions';
+import { selectLoginErrorMessage } from '../../store/selector/authentication.selector';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  constructor(private store: Store) {}
+  userForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', Validators.required),
+  });
+  errorMessage$ = this.store.select(selectLoginErrorMessage);
+  ngOnInit(): void {}
 
-  constructor() { }
-
-  ngOnInit(): void {
+  onSubmit(): void {
+    this.store.dispatch(loginUser(this.userForm.value));
   }
-
 }

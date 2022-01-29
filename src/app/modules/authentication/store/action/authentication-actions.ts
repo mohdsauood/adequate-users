@@ -24,7 +24,8 @@ export const loginUserSuccess = createAction(
 );
 
 export const loginUserFailed = createAction(
-  '[Authentication] Login User Failed'
+  '[Authentication] Login User Failed',
+  props<{ message: string }>()
 );
 
 export const setUser = createAction(

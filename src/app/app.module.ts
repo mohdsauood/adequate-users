@@ -9,11 +9,13 @@ import { AngularMaterialModule } from './shared/angular-material/angular-materia
 import { environment } from 'src/environments/environment';
 import { NavbarComponent } from './common/layout/navbar/navbar.component';
 import { AppStoreModule } from './store/app.store.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularMaterialModule,

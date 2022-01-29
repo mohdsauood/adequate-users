@@ -1,15 +1,17 @@
 import { createReducer, on } from '@ngrx/store';
 import { User } from '../../model/user/users.model';
-import { setUser } from '../action/authentication-actions';
+import { loginUserFailed, setUser } from '../action/authentication-actions';
 
 export interface AuthenticationInitialState {
   isLoggedIn: boolean;
   user: User | null;
+  loginErrorMessage: string;
 }
 
 export const initialState: AuthenticationInitialState = {
   isLoggedIn: false,
   user: null,
+  loginErrorMessage: '',
 };
 
 export const authenticationReducer = createReducer(
@@ -17,5 +19,11 @@ export const authenticationReducer = createReducer(
   on(setUser, (state, user) => ({
     ...state,
     user,
+    isLoggedIn: true,
+    loginErrorMessage: '',
+  })),
+  on(loginUserFailed, (state, { message }) => ({
+    ...state,
+    loginErrorMessage: message,
   }))
 );

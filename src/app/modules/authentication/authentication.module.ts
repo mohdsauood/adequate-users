@@ -8,12 +8,15 @@ import { AuthenticationEffects } from './store/effect/authentication.effects';
 import { LoginComponent } from './components/login/login.component';
 
 import { RegisterComponent } from './components/register/register.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent],
   imports: [
     CommonModule,
     AuthenticationRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
     EffectsModule.forFeature([AuthenticationEffects]),
   ],
 })
