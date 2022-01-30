@@ -9,6 +9,7 @@ import { PaginationService } from 'src/app/common/service/pagination/pagination.
 import { UserFormType } from '../../enums/formTypeEnum';
 import { User } from '../../model/user/user.model';
 import {
+  deleteUser,
   getUsers,
   setDefaultPagination,
   setSelectedUser,
@@ -42,6 +43,7 @@ export class DashboardComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
   usersLength!: number;
   page = 1;
+  userToDelete!: User;
   // @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -88,5 +90,13 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  deleteUser(x: any) {}
+  openDeleteDialog(content: any, user: User) {
+    this.userToDelete = user;
+    this.modalService.open(content);
+  }
+
+  deleteUser() {
+    this.store.dispatch(deleteUser({ userId: this.userToDelete.id }));
+    this.modalService.dismissAll();
+  }
 }

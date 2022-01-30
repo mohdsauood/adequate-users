@@ -19,6 +19,7 @@ import { UserFormType } from '../../enums/formTypeEnum';
 import { DashboardService } from '../../service/dashboard.service';
 import {
   addUser,
+  deleteUser,
   editUser,
   getUsers,
   setDefaultPagination,
@@ -89,6 +90,20 @@ export class DashboardEffects {
             getUsers(),
             setUserFormType({ formType: UserFormType.ADD }),
           ]),
+
+          catchError((error) => [setUserError({ error: error.message })]),
+          finalize(() => [setUserLoader({ loading: false })])
+        )
+      )
+    )
+  );
+  deleteUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteUser),
+      tap(() => [setUserLoader({ loading: true })]),
+      switchMap((action) =>
+        this.dashboardService.deleteUser(action.userId).pipe(
+          mergeMap((userRes) => [getUsers()]),
 
           catchError((error) => [setUserError({ error: error.message })]),
           finalize(() => [setUserLoader({ loading: false })])

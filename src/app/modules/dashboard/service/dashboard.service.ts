@@ -33,4 +33,8 @@ export class DashboardService {
   editUser(user: editUserReq): Observable<User> {
     return this.http.put<User>(environment.apiUrl + `/users/${user.id}`, user);
   }
+
+  deleteUser(id: string): Observable<User> {
+    return this.http.delete<User>(environment.apiUrl + `/users/${id}`);
+  }
 }
