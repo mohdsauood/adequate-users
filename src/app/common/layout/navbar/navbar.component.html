@@ -1,5 +1,11 @@
 <nav>
   <h3 class="mt-0">Adequate Users Management</h3>
   <!-- add ngif to show logout or register -->
-  <button mat-raised-button color="accent">register</button>
+  <button
+    mat-raised-button
+    color="accent"
+    [routerLink]="isLoginPage ? '/register' : '/login'"
+  >
+    {{ isLoginPage ? "register" : "login" }}
+  </button>
 </nav>
