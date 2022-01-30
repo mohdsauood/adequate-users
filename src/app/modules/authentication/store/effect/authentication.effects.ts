@@ -17,6 +17,7 @@ import {
   loginUserSuccess,
   registerUser,
   registerUserFailed,
+  registerUserSuccess,
   setUser,
 } from '../action/authentication-actions';
 // import { MoviesService } from './movies.service';
@@ -33,7 +34,7 @@ export class AuthenticationEffects {
       switchMap((action) =>
         this.authenticationService.login(action).pipe(
           mergeMap((userRes) => {
-            if (userRes.code == 1) {
+            if (userRes.code == 0) {
               return [
                 setUser({
                   $id: userRes.data.$id,
@@ -60,9 +61,9 @@ export class AuthenticationEffects {
       switchMap((action) =>
         this.authenticationService.register(action).pipe(
           mergeMap((userRes) => {
-            if (userRes.code == 1) {
+            if (userRes.code == 0) {
               return [
-                loginUserSuccess(),
+                registerUserSuccess(),
                 setUser({
                   $id: userRes.data.$id,
                   Id: userRes.data.Id,
@@ -72,11 +73,13 @@ export class AuthenticationEffects {
                 }),
               ];
             } else {
-              return [loginUserFailed({ message: userRes.message })];
+              return [registerUserFailed({ message: userRes.message })];
             }
           }),
 
-          catchError((error) => of(loginUserFailed({ message: error.message })))
+          catchError((error) =>
+            of(registerUserFailed({ message: error.message }))
+          )
         )
       )
     )
