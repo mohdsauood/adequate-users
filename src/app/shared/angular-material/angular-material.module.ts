@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 /**
  * all necessary material module imports for shared module
  */
@@ -37,6 +38,7 @@ const materialModule: any = [
   MatTableModule,
   MatSortModule,
   MatPaginatorModule,
+  NgbModalModule,
 ];
 
 @NgModule({

@@ -4,6 +4,8 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/modules/authentication/service/authentication.service';
 import { Store } from '@ngrx/store';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserFormComponent } from 'src/app/modules/dashboard/components/user-form/user-form.component';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -15,7 +17,8 @@ export class NavbarComponent implements OnInit {
   constructor(
     public router: Router,
     private authenticationService: AuthenticationService,
-    private store: Store
+    private store: Store,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -34,5 +37,9 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  addUser(): void {}
+  addUser(): void {
+    const modalRef = this.modalService.open(UserFormComponent, {
+      centered: true,
+    });
+  }
 }

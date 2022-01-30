@@ -13,7 +13,10 @@ export const selectFormType = createSelector(
   selectDashboardState,
   (state) => state.formType
 );
-
+export const selectSelectedUser = createSelector(
+  selectDashboardState,
+  (state) => state.selectedUser
+);
 export const selectUsers = createSelector(
   selectDashboardState,
   (state) => state.users

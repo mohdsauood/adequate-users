@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { UserFormType } from '../../enums/formTypeEnum';
-import { AddUserReq, User } from '../../model/user/user.model';
+import { AddUserReq, editUserReq, User } from '../../model/user/user.model';
 
 export const setDefaultPagination = createAction(
   '[Dashboard] set default pagination',
@@ -12,6 +12,11 @@ export const getUsers = createAction('[Dashboard] get Users');
 export const setUsers = createAction(
   '[Dashboard] set Users',
   props<{ users: User[] }>()
+);
+
+export const setSelectedUser = createAction(
+  '[Dashboard] set Selected user',
+  props<{ user: User }>()
 );
 
 export const setUserFormType = createAction(
@@ -33,7 +38,7 @@ export const addUser = createAction(
 );
 export const editUser = createAction(
   '[Dashboard] Edit User',
-  props<{ user: AddUserReq; id: string }>()
+  props<{ user: editUserReq }>()
 );
 export const findUser = createAction(
   '[Dashboard] Find User',
@@ -46,7 +51,7 @@ export const deleteUser = createAction(
 
 export const setUserLoader = createAction(
   '[Dashboard] Set Loader',
-  props<{ isLoading: boolean }>()
+  props<{ loading: boolean }>()
 );
 
 export const setTotalUsersPages = createAction(

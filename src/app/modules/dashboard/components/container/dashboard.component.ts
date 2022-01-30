@@ -2,18 +2,23 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { PaginationService } from 'src/app/common/service/pagination/pagination.service';
+import { UserFormType } from '../../enums/formTypeEnum';
 import { User } from '../../model/user/user.model';
 import {
   getUsers,
   setDefaultPagination,
+  setSelectedUser,
+  setUserFormType,
 } from '../../store/action/dashboard.actions';
 import {
   selectTotalUsersPages,
   selectUsers,
 } from '../../store/selector/dashboard.selector';
+import { UserFormComponent } from '../user-form/user-form.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +28,8 @@ import {
 export class DashboardComponent implements OnInit {
   constructor(
     private store: Store,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
+    private modalService: NgbModal
   ) {}
   displayedColumns: string[] = [
     'id',
@@ -62,6 +68,7 @@ export class DashboardComponent implements OnInit {
       this.usersLength = userPages as number;
     });
   }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -73,7 +80,13 @@ export class DashboardComponent implements OnInit {
     this.getUsers();
   }
 
-  editUser(x: any) {}
+  editUser(user: User) {
+    this.store.dispatch(setSelectedUser({ user }));
+    this.store.dispatch(setUserFormType({ formType: UserFormType.EDIT }));
+    const modalRef = this.modalService.open(UserFormComponent, {
+      centered: true,
+    });
+  }
 
   deleteUser(x: any) {}
 }

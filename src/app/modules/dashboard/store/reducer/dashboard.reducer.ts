@@ -3,6 +3,7 @@ import { UserFormType } from '../../enums/formTypeEnum';
 import { User } from '../../model/user/user.model';
 import {
   addUser,
+  setSelectedUser,
   setSuccess,
   setTotalUsersPages,
   setUserError,
@@ -53,12 +54,16 @@ export const DashboardReducer = createReducer(
     ...state,
     success,
   })),
-  on(setUserLoader, (state, { isLoading }) => ({
+  on(setUserLoader, (state, { loading }) => ({
     ...state,
-    isLoading,
+    isLoading: loading,
   })),
   on(setTotalUsersPages, (state, { usersPages }) => ({
     ...state,
     totalUsersPages: usersPages,
+  })),
+  on(setSelectedUser, (state, { user }) => ({
+    ...state,
+    selectedUser: user,
   }))
 );

@@ -3,7 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PaginationService } from 'src/app/common/service/pagination/pagination.service';
 import { environment } from 'src/environments/environment';
-import { UserRes } from '../model/user/user.model';
+import {
+  AddUserReq,
+  editUserReq,
+  User,
+  UserRes,
+} from '../model/user/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,13 +20,17 @@ export class DashboardService {
   ) {}
 
   getAllUsers(): Observable<UserRes> {
-    console.log(
-      'logging default session from storage',
-      this.paginationService.getFromSessionStorage()
-    );
     return this.http.get<UserRes>(
       environment.apiUrl +
         `/users?page=${this.paginationService.getFromSessionStorage()}`
     );
+  }
+
+  addUser(user: AddUserReq): Observable<User> {
+    return this.http.post<User>(environment.apiUrl + `/users`, user);
+  }
+
+  editUser(user: editUserReq): Observable<User> {
+    return this.http.put<User>(environment.apiUrl + `/users/${user.id}`, user);
   }
 }

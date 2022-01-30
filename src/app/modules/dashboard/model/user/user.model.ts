@@ -1,6 +1,6 @@
 export interface User {
   $id: string;
-  id: number;
+  id: string;
   name: string;
   email: string;
   profilepicture: string;
@@ -21,4 +21,8 @@ export interface AddUserReq {
   name: string;
   email: string;
   location: string;
+}
+
+export interface editUserReq extends AddUserReq {
+  id: string;
 }
