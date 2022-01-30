@@ -8,6 +8,7 @@ import { UsersComponent } from './components/users/users.component';
 import { DashboardEffects } from './store/effect/dashboard.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AngularMaterialModule } from 'src/app/shared/angular-material/angular-material.module';
 
 @NgModule({
   declarations: [DashboardComponent, UserFormComponent, UsersComponent],
@@ -16,6 +17,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     DashboardRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    AngularMaterialModule,
     EffectsModule.forFeature([DashboardEffects]),
   ],
 })

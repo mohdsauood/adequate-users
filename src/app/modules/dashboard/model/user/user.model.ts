@@ -9,11 +9,11 @@ export interface User {
 }
 
 export interface UserRes {
-  $id: '1';
-  page: 1;
-  per_page: 10;
-  totalrecord: 2812;
-  total_pages: 282;
+  $id: string;
+  page: number;
+  per_page: number;
+  totalrecord: number;
+  total_pages: number;
   data: User[];
 }
 

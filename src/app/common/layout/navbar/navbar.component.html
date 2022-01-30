@@ -10,6 +10,14 @@
     {{ isLoginPage ? "register" : "login" }}
   </button>
   <ng-template #LogoutButtonBlock>
+    <button
+      mat-raised-button
+      color="secondary"
+      (click)="addUser()"
+      class="mr-4 btn-text-white"
+    >
+      {{ "Add User" }}
+    </button>
     <button mat-raised-button color="accent" (click)="logout()">
       {{ "logout" }}
     </button>

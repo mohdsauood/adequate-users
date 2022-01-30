@@ -13,6 +13,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 /**
  * all necessary material module imports for shared module
  */
@@ -31,6 +33,8 @@ const materialModule: any = [
   MatProgressSpinnerModule,
   MatProgressBarModule,
   MatDialogModule,
+  MatTableModule,
+  MatSortModule,
 ];
 
 @NgModule({
