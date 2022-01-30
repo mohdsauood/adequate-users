@@ -17,6 +17,7 @@ import { DashboardService } from '../../service/dashboard.service';
 import {
   getUsers,
   setDefaultPagination,
+  setTotalUsersPages,
   setUsers,
 } from '../action/dashboard.actions';
 
@@ -46,7 +47,12 @@ export class DashboardEffects {
       switchMap((action) =>
         this.dashboardService
           .getAllUsers()
-          .pipe(mergeMap((usersRes) => [setUsers({ users: usersRes.data })]))
+          .pipe(
+            mergeMap((usersRes) => [
+              setUsers({ users: usersRes.data }),
+              setTotalUsersPages({ usersPages: usersRes.total_pages }),
+            ])
+          )
       )
     )
   );

@@ -28,3 +28,8 @@ export const selectSuccess = createSelector(
   selectDashboardState,
   (state) => state.success
 );
+
+export const selectTotalUsersPages = createSelector(
+  selectDashboardState,
+  (state) => state.totalUsersPages
+);

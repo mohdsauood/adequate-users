@@ -11,6 +11,7 @@ import { NavbarComponent } from './common/layout/navbar/navbar.component';
 import { AppStoreModule } from './store/app.store.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './common/auth/jwt-interceptor';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
@@ -27,6 +28,7 @@ import { JwtInterceptor } from './common/auth/jwt-interceptor';
       maxAge: 25,
       logOnly: environment.production,
     }),
+    NgbModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

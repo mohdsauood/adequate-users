@@ -73,3 +73,20 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
+<div class="d-block">
+  <div class="width-90 mx-auto d-flex justify-content-center">
+    <ngb-pagination
+      [collectionSize]="usersLength"
+      [(page)]="page"
+      aria-label="Default pagination"
+      [maxSize]="5"
+      [rotate]="true"
+      [ellipses]="false"
+      [boundaryLinks]="true"
+      (pageChange)="updatePagination()"
+    ></ngb-pagination>
+  </div>
+</div>
+<div>
+  {{ usersLength }}
+</div>

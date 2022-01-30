@@ -4,6 +4,7 @@ import { User } from '../../model/user/user.model';
 import {
   addUser,
   setSuccess,
+  setTotalUsersPages,
   setUserError,
   setUserFormType,
   setUserLoader,
@@ -17,6 +18,7 @@ export interface DashboardInitialState {
   users: User[] | null;
   error: string | null;
   success: string | null;
+  totalUsersPages: number | null;
 }
 
 export const initialState: DashboardInitialState = {
@@ -26,6 +28,7 @@ export const initialState: DashboardInitialState = {
   users: null,
   error: null,
   success: null,
+  totalUsersPages: null,
 };
 
 export const DashboardReducer = createReducer(
@@ -53,5 +56,9 @@ export const DashboardReducer = createReducer(
   on(setUserLoader, (state, { isLoading }) => ({
     ...state,
     isLoading,
+  })),
+  on(setTotalUsersPages, (state, { usersPages }) => ({
+    ...state,
+    totalUsersPages: usersPages,
   }))
 );

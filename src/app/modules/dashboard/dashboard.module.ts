@@ -9,6 +9,7 @@ import { DashboardEffects } from './store/effect/dashboard.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AngularMaterialModule } from 'src/app/shared/angular-material/angular-material.module';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [DashboardComponent, UserFormComponent, UsersComponent],
@@ -19,6 +20,7 @@ import { AngularMaterialModule } from 'src/app/shared/angular-material/angular-m
     FormsModule,
     AngularMaterialModule,
     EffectsModule.forFeature([DashboardEffects]),
+    NgbPaginationModule,
   ],
 })
 export class DashboardModule {}

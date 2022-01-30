@@ -43,7 +43,13 @@ export const deleteUser = createAction(
   '[Dashboard] Delete User',
   props<{ userId: string }>()
 );
+
 export const setUserLoader = createAction(
   '[Dashboard] Set Loader',
   props<{ isLoading: boolean }>()
+);
+
+export const setTotalUsersPages = createAction(
+  '[Dashboard] Set Total Users',
+  props<{ usersPages: number }>()
 );
