@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/modules/authentication/service/authentication.service';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -13,7 +14,8 @@ export class NavbarComponent implements OnInit {
   isDashBoardPage = false;
   constructor(
     public router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -21,10 +23,14 @@ export class NavbarComponent implements OnInit {
       .pipe(filter((r) => r instanceof NavigationEnd))
       .subscribe((route) => {
         this.isLoginPage = (route as NavigationEnd).url.includes('login');
-        this.isDashBoardPage = (route as NavigationEnd).url.includes('login');
+        this.isDashBoardPage = (route as NavigationEnd).url.includes(
+          'dashboard'
+        );
       });
   }
   logout(): void {
-    this.authenticationService.logout();
+    this.authenticationService.logout().subscribe(() => {
+      this.router.navigate(['/login']);
+    });
   }
 }

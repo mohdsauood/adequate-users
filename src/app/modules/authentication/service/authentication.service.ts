@@ -41,5 +41,6 @@ export class AuthenticationService {
 
   logout() {
     this.localStorageService.deleteCurrentUserFromLocalStorage();
+    return of(null);
   }
 }
