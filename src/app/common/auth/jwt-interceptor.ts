@@ -23,7 +23,7 @@ export class JwtInterceptor implements HttpInterceptor {
     request = request.clone({
       setHeaders: {
         Authorization: `Bearer ${
-          this.localStorageService.getUserFromLocalStorage().token
+          this.localStorageService.getUserFromLocalStorage().Token
         }`,
       },
     });

@@ -9,7 +9,8 @@ import { AngularMaterialModule } from './shared/angular-material/angular-materia
 import { environment } from 'src/environments/environment';
 import { NavbarComponent } from './common/layout/navbar/navbar.component';
 import { AppStoreModule } from './store/app.store.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './common/auth/jwt-interceptor';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
@@ -27,7 +28,9 @@ import { HttpClientModule } from '@angular/common/http';
       logOnly: environment.production,
     }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

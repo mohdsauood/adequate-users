@@ -6,6 +6,7 @@ import {
   loginUserSuccess,
   registerUserFailed,
   registerUserSuccess,
+  setAuthenticationLoader,
   setUser,
 } from '../action/authentication-actions';
 
@@ -16,6 +17,7 @@ export interface AuthenticationInitialState {
   loginSuccessMessage: string;
   registerErrorMessage: string;
   registerSuccessMessage: string;
+  isLoading: boolean;
 }
 
 export const initialState: AuthenticationInitialState = {
@@ -25,6 +27,7 @@ export const initialState: AuthenticationInitialState = {
   loginSuccessMessage: '',
   registerErrorMessage: '',
   registerSuccessMessage: '',
+  isLoading: false,
 };
 
 export const authenticationReducer = createReducer(
@@ -58,5 +61,9 @@ export const authenticationReducer = createReducer(
     loginSuccessMessage: '',
     registerErrorMessage: '',
     registerSuccessMessage: '',
+  })),
+  on(setAuthenticationLoader, (state, { loading }) => ({
+    ...state,
+    isLoading: loading,
   }))
 );

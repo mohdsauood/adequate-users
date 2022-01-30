@@ -37,3 +37,8 @@ export const setUser = createAction(
 export const clearResponseMessages = createAction(
   '[Authentication] Clear Response Messages'
 );
+
+export const setAuthenticationLoader = createAction(
+  '[Authentication] set authentication loader',
+  props<{ loading: boolean }>()
+);

@@ -11,13 +11,43 @@ import {
   tap,
 } from 'rxjs/operators';
 import { LocalStorageService } from 'src/app/common/service/local-storage/local-storage.service';
+import { PaginationService } from 'src/app/common/service/pagination/pagination.service';
 import { AuthenticationService } from 'src/app/modules/authentication/service/authentication.service';
+import { DashboardService } from '../../service/dashboard.service';
+import {
+  getUsers,
+  setDefaultPagination,
+  setUsers,
+} from '../action/dashboard.actions';
 
 @Injectable()
 export class DashboardEffects {
   constructor(
     private actions$: Actions,
-    private authenticationService: AuthenticationService,
-    private localStorageService: LocalStorageService
+    private dashboardService: DashboardService,
+    private localStorageService: LocalStorageService,
+    private paginationService: PaginationService
   ) {}
+
+  setDefaultPagination$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(setDefaultPagination),
+        switchMap((action) =>
+          of(this.paginationService.setToSessionStorage(action))
+        )
+      ),
+    { dispatch: false }
+  );
+
+  getUsers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getUsers),
+      switchMap((action) =>
+        this.dashboardService
+          .getAllUsers()
+          .pipe(mergeMap((usersRes) => [setUsers({ users: usersRes.data })]))
+      )
+    )
+  );
 }

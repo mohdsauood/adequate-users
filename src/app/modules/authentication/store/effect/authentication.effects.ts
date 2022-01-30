@@ -9,6 +9,7 @@ import {
   concatMap,
   switchMap,
   tap,
+  finalize,
 } from 'rxjs/operators';
 import { LocalStorageService } from 'src/app/common/service/local-storage/local-storage.service';
 import { User } from '../../model/user/users.model';
@@ -21,6 +22,7 @@ import {
   registerUser,
   registerUserFailed,
   registerUserSuccess,
+  setAuthenticationLoader,
   setUser,
 } from '../action/authentication-actions';
 
@@ -34,6 +36,7 @@ export class AuthenticationEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loginUser),
+      tap(() => [setAuthenticationLoader({ loading: true })]),
       switchMap((action) =>
         this.authenticationService.login(action).pipe(
           mergeMap((userRes) => {
@@ -66,7 +69,8 @@ export class AuthenticationEffects {
           catchError((error) => [
             clearResponseMessages(),
             loginUserFailed({ message: error.message }),
-          ])
+          ]),
+          finalize(() => [setAuthenticationLoader({ loading: false })])
         )
       )
     )
@@ -75,6 +79,7 @@ export class AuthenticationEffects {
   register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(registerUser),
+      tap(() => [setAuthenticationLoader({ loading: true })]),
       switchMap((action) =>
         this.authenticationService.register(action).pipe(
           mergeMap((userRes) => {
@@ -101,7 +106,8 @@ export class AuthenticationEffects {
           catchError((error) => [
             clearResponseMessages(),
             registerUserFailed({ message: error.message }),
-          ])
+          ]),
+          finalize(() => [setAuthenticationLoader({ loading: false })])
         )
       )
     )
