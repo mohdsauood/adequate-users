@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://restapi.adequateshop.com/api/',
+  apiUrl: 'http://restapi.adequateshop.com/api',
 };
 
 /*

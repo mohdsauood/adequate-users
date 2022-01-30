@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { LoginUser, UserRes } from '../model/user/users.model';
+import { LoginUser, RegisterUser, UserRes } from '../model/user/users.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,5 +15,16 @@ export class AuthenticationService {
       email,
       password,
     });
+  }
+
+  register({ email, password, name }: RegisterUser): Observable<UserRes> {
+    return this.http.post<UserRes>(
+      environment.apiUrl + '/authaccount/registration',
+      {
+        name,
+        email,
+        password,
+      }
+    );
   }
 }

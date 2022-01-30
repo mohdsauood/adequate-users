@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://restapi.adequateshop.com/api/',
+  apiUrl: 'http://restapi.adequateshop.com/api',
 };

@@ -19,3 +19,8 @@ export const selectLoginErrorMessage = createSelector(
   selectAuthenticationState,
   (state) => state.loginErrorMessage
 );
+
+export const selectRegisterErrorMessage = createSelector(
+  selectAuthenticationState,
+  (state) => state.registerErrorMessage
+);
