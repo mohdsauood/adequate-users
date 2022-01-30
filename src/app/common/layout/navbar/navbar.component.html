@@ -23,3 +23,13 @@
     </button>
   </ng-template>
 </nav>
+
+<div class="custom-loader" *ngIf="isLoading">
+  <div class="d-flex h-100">
+    <img
+      class="m-auto"
+      src="../../../../assets/images/loader.svg"
+      height="150"
+    />
+  </div>
+</div>

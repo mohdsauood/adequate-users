@@ -6,6 +6,8 @@ import { AuthenticationService } from 'src/app/modules/authentication/service/au
 import { Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserFormComponent } from 'src/app/modules/dashboard/components/user-form/user-form.component';
+import { selectDashboardisLoading } from 'src/app/modules/dashboard/store/selector/dashboard.selector';
+import { selectAuthenticationIsLoading } from 'src/app/modules/authentication/store/selector/authentication.selector';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -14,6 +16,7 @@ import { UserFormComponent } from 'src/app/modules/dashboard/components/user-for
 export class NavbarComponent implements OnInit {
   isLoginPage = false;
   isDashBoardPage = false;
+  isLoading: boolean = true;
   constructor(
     public router: Router,
     private authenticationService: AuthenticationService,
@@ -30,6 +33,15 @@ export class NavbarComponent implements OnInit {
           'dashboard'
         );
       });
+    this.listenToLoaders();
+  }
+  listenToLoaders() {
+    this.store.select(selectDashboardisLoading).subscribe((showLoader) => {
+      this.isLoading = showLoader;
+    });
+    this.store.select(selectAuthenticationIsLoading).subscribe((showLoader) => {
+      this.isLoading = showLoader;
+    });
   }
   logout(): void {
     this.authenticationService.logout().subscribe(() => {

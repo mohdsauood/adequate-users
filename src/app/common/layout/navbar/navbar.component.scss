@@ -24,3 +24,14 @@ nav {
     color: white;
   }
 }
+
+.custom-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.19);
+  backdrop-filter: blur(5px);
+  height: 100vh;
+  width: 100%;
+  z-index: 99999999999999999;
+}

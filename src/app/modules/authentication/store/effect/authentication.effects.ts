@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { EMPTY, of, throwError } from 'rxjs';
 import {
   map,
@@ -31,12 +32,15 @@ export class AuthenticationEffects {
   constructor(
     private actions$: Actions,
     private authenticationService: AuthenticationService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private store: Store
   ) {}
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loginUser),
-      tap(() => [setAuthenticationLoader({ loading: true })]),
+      tap(() =>
+        this.store.dispatch(setAuthenticationLoader({ loading: true }))
+      ),
       switchMap((action) =>
         this.authenticationService.login(action).pipe(
           mergeMap((userRes) => {
@@ -70,7 +74,9 @@ export class AuthenticationEffects {
             clearResponseMessages(),
             loginUserFailed({ message: error.message }),
           ]),
-          finalize(() => [setAuthenticationLoader({ loading: false })])
+          finalize(() =>
+            this.store.dispatch(setAuthenticationLoader({ loading: false }))
+          )
         )
       )
     )
@@ -79,7 +85,9 @@ export class AuthenticationEffects {
   register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(registerUser),
-      tap(() => [setAuthenticationLoader({ loading: true })]),
+      tap(() =>
+        this.store.dispatch(setAuthenticationLoader({ loading: true }))
+      ),
       switchMap((action) =>
         this.authenticationService.register(action).pipe(
           mergeMap((userRes) => {
@@ -107,7 +115,9 @@ export class AuthenticationEffects {
             clearResponseMessages(),
             registerUserFailed({ message: error.message }),
           ]),
-          finalize(() => [setAuthenticationLoader({ loading: false })])
+          finalize(() =>
+            this.store.dispatch(setAuthenticationLoader({ loading: false }))
+          )
         )
       )
     )

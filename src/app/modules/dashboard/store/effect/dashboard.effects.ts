@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { EMPTY, of, throwError } from 'rxjs';
 import {
   map,
@@ -15,6 +16,7 @@ import { LocalStorageService } from 'src/app/common/service/local-storage/local-
 import { PaginationService } from 'src/app/common/service/pagination/pagination.service';
 import { AuthenticationService } from 'src/app/modules/authentication/service/authentication.service';
 import { clearResponseMessages } from 'src/app/modules/authentication/store/action/authentication-actions';
+import { setLoading } from 'src/app/store/action/actions';
 import { UserFormType } from '../../enums/formTypeEnum';
 import { DashboardService } from '../../service/dashboard.service';
 import {
@@ -36,7 +38,8 @@ export class DashboardEffects {
     private actions$: Actions,
     private dashboardService: DashboardService,
     private localStorageService: LocalStorageService,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
+    private store: Store
   ) {}
 
   setDefaultPagination$ = createEffect(
@@ -53,15 +56,15 @@ export class DashboardEffects {
   getUsers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getUsers),
+      tap(() => this.store.dispatch(setUserLoader({ loading: true }))),
       switchMap((action) =>
-        this.dashboardService
-          .getAllUsers()
-          .pipe(
-            mergeMap((usersRes) => [
-              setUsers({ users: usersRes.data }),
-              setTotalUsersPages({ usersPages: usersRes.total_pages }),
-            ])
-          )
+        this.dashboardService.getAllUsers().pipe(
+          mergeMap((usersRes) => [
+            setUsers({ users: usersRes.data }),
+            setTotalUsersPages({ usersPages: usersRes.total_pages }),
+          ]),
+          finalize(() => this.store.dispatch(setUserLoader({ loading: false })))
+        )
       )
     )
   );
@@ -69,13 +72,13 @@ export class DashboardEffects {
   addUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addUser),
-      tap(() => [setUserLoader({ loading: true })]),
+      tap(() => this.store.dispatch(setUserLoader({ loading: true }))),
       switchMap((action) =>
         this.dashboardService.addUser(action.user).pipe(
           mergeMap((userRes) => [getUsers()]),
 
           catchError((error) => [setUserError({ error: error.message })]),
-          finalize(() => [setUserLoader({ loading: false })])
+          finalize(() => this.store.dispatch(setUserLoader({ loading: false })))
         )
       )
     )
@@ -83,7 +86,7 @@ export class DashboardEffects {
   editUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(editUser),
-      tap(() => [setUserLoader({ loading: true })]),
+      tap(() => this.store.dispatch(setUserLoader({ loading: true }))),
       switchMap((action) =>
         this.dashboardService.editUser(action.user).pipe(
           mergeMap((userRes) => [
@@ -92,7 +95,7 @@ export class DashboardEffects {
           ]),
 
           catchError((error) => [setUserError({ error: error.message })]),
-          finalize(() => [setUserLoader({ loading: false })])
+          finalize(() => this.store.dispatch(setUserLoader({ loading: false })))
         )
       )
     )
@@ -100,13 +103,13 @@ export class DashboardEffects {
   deleteUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(deleteUser),
-      tap(() => [setUserLoader({ loading: true })]),
+      tap(() => this.store.dispatch(setUserLoader({ loading: true }))),
       switchMap((action) =>
         this.dashboardService.deleteUser(action.userId).pipe(
           mergeMap((userRes) => [getUsers()]),
 
           catchError((error) => [setUserError({ error: error.message })]),
-          finalize(() => [setUserLoader({ loading: false })])
+          finalize(() => this.store.dispatch(setUserLoader({ loading: false })))
         )
       )
     )

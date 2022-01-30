@@ -34,3 +34,8 @@ export const selectRegisterSuccessMessage = createSelector(
   selectAuthenticationState,
   (state) => state.registerSuccessMessage
 );
+
+export const selectAuthenticationIsLoading = createSelector(
+  selectAuthenticationState,
+  (state) => state.isLoading
+);
