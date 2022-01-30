@@ -20,7 +20,17 @@ export const selectLoginErrorMessage = createSelector(
   (state) => state.loginErrorMessage
 );
 
+export const selectLoginSuccessMessage = createSelector(
+  selectAuthenticationState,
+  (state) => state.loginSuccessMessage
+);
+
 export const selectRegisterErrorMessage = createSelector(
   selectAuthenticationState,
   (state) => state.registerErrorMessage
+);
+
+export const selectRegisterSuccessMessage = createSelector(
+  selectAuthenticationState,
+  (state) => state.registerSuccessMessage
 );

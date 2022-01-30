@@ -33,3 +33,7 @@ export const setUser = createAction(
   '[Authentication] Set Logged In User',
   props<User>()
 );
+
+export const clearResponseMessages = createAction(
+  '[Authentication] Clear Response Messages'
+);

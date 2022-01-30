@@ -11,7 +11,7 @@ export class AuthenticationService {
   constructor(private http: HttpClient) {}
 
   login({ email, password }: LoginUser): Observable<UserRes> {
-    return this.http.post<UserRes>(environment.apiUrl + 'authaccount/login', {
+    return this.http.post<UserRes>(environment.apiUrl + '/authaccount/login', {
       email,
       password,
     });

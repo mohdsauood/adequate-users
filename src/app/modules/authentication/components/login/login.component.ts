@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { loginUser } from '../../store/action/authentication-actions';
-import { selectLoginErrorMessage } from '../../store/selector/authentication.selector';
+import {
+  clearResponseMessages,
+  loginUser,
+} from '../../store/action/authentication-actions';
+import {
+  selectLoginErrorMessage,
+  selectLoginSuccessMessage,
+} from '../../store/selector/authentication.selector';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +22,10 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', Validators.required),
   });
   errorMessage$ = this.store.select(selectLoginErrorMessage);
-  ngOnInit(): void {}
+  successMessage$ = this.store.select(selectLoginSuccessMessage);
+  ngOnInit(): void {
+    this.store.dispatch(clearResponseMessages());
+  }
 
   onSubmit(): void {
     this.store.dispatch(loginUser(this.userForm.value));

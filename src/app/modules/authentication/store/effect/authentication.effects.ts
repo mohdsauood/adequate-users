@@ -12,6 +12,7 @@ import {
 } from 'rxjs/operators';
 import { AuthenticationService } from '../../service/authentication.service';
 import {
+  clearResponseMessages,
   loginUser,
   loginUserFailed,
   loginUserSuccess,
@@ -36,6 +37,8 @@ export class AuthenticationEffects {
           mergeMap((userRes) => {
             if (userRes.code == 0) {
               return [
+                clearResponseMessages(),
+                loginUserSuccess(),
                 setUser({
                   $id: userRes.data.$id,
                   Id: userRes.data.Id,
@@ -45,11 +48,16 @@ export class AuthenticationEffects {
                 }),
               ];
             } else {
-              return [loginUserFailed({ message: userRes.message })];
+              return [
+                clearResponseMessages(),
+                loginUserFailed({ message: userRes.message }),
+              ];
             }
           }),
-
-          catchError((error) => of(loginUserFailed({ message: error.message })))
+          catchError((error) => [
+            clearResponseMessages(),
+            loginUserFailed({ message: error.message }),
+          ])
         )
       )
     )
@@ -63,6 +71,7 @@ export class AuthenticationEffects {
           mergeMap((userRes) => {
             if (userRes.code == 0) {
               return [
+                clearResponseMessages(),
                 registerUserSuccess(),
                 setUser({
                   $id: userRes.data.$id,
@@ -73,13 +82,17 @@ export class AuthenticationEffects {
                 }),
               ];
             } else {
-              return [registerUserFailed({ message: userRes.message })];
+              return [
+                clearResponseMessages(),
+                registerUserFailed({ message: userRes.message }),
+              ];
             }
           }),
 
-          catchError((error) =>
-            of(registerUserFailed({ message: error.message }))
-          )
+          catchError((error) => [
+            clearResponseMessages(),
+            registerUserFailed({ message: error.message }),
+          ])
         )
       )
     )

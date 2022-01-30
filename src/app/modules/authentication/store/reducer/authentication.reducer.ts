@@ -1,8 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 import { User } from '../../model/user/users.model';
 import {
+  clearResponseMessages,
   loginUserFailed,
+  loginUserSuccess,
   registerUserFailed,
+  registerUserSuccess,
   setUser,
 } from '../action/authentication-actions';
 
@@ -10,14 +13,18 @@ export interface AuthenticationInitialState {
   isLoggedIn: boolean;
   user: User | null;
   loginErrorMessage: string;
+  loginSuccessMessage: string;
   registerErrorMessage: string;
+  registerSuccessMessage: string;
 }
 
 export const initialState: AuthenticationInitialState = {
   isLoggedIn: false,
   user: null,
   loginErrorMessage: '',
+  loginSuccessMessage: '',
   registerErrorMessage: '',
+  registerSuccessMessage: '',
 };
 
 export const authenticationReducer = createReducer(
@@ -32,8 +39,24 @@ export const authenticationReducer = createReducer(
     ...state,
     loginErrorMessage: message,
   })),
+  on(loginUserSuccess, (state) => ({
+    ...state,
+    loginSuccessMessage: 'Login Successful !',
+  })),
   on(registerUserFailed, (state, { message }) => ({
     ...state,
     registerErrorMessage: message,
+  })),
+  on(registerUserSuccess, (state) => ({
+    ...state,
+    registerSuccessMessage:
+      'Registeration Successful ! Please Login in to your Account',
+  })),
+  on(clearResponseMessages, (state) => ({
+    ...state,
+    loginErrorMessage: '',
+    loginSuccessMessage: '',
+    registerErrorMessage: '',
+    registerSuccessMessage: '',
   }))
 );
