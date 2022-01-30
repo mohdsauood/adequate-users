@@ -23,7 +23,6 @@ import {
   registerUserSuccess,
   setUser,
 } from '../action/authentication-actions';
-// import { MoviesService } from './movies.service';
 
 @Injectable()
 export class AuthenticationEffects {

@@ -12,8 +12,8 @@ export class LocalStorageService {
     localStorage.setItem('currentUser', JSON.stringify(user));
   }
 
-  getUserFromLocalStorage(key: string) {
-    this.currentUser = localStorage.getItem(key) as string;
+  getUserFromLocalStorage() {
+    this.currentUser = localStorage.getItem('currentUser') as string;
     return JSON.parse(this.currentUser);
   }
 

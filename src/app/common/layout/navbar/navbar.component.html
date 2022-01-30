@@ -2,10 +2,16 @@
   <h3 class="mt-0">Adequate Users Management</h3>
   <!-- add ngif to show logout or register -->
   <button
+    *ngIf="!isDashBoardPage; else LogoutButtonBlock"
     mat-raised-button
     color="accent"
     [routerLink]="isLoginPage ? '/register' : '/login'"
   >
     {{ isLoginPage ? "register" : "login" }}
   </button>
+  <ng-template #LogoutButtonBlock>
+    <button mat-raised-button color="accent" (click)="logout()">
+      {{ "logout" }}
+    </button>
+  </ng-template>
 </nav>
