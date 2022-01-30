@@ -10,6 +10,8 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { LocalStorageService } from 'src/app/common/service/local-storage/local-storage.service';
+import { User } from '../../model/user/users.model';
 import { AuthenticationService } from '../../service/authentication.service';
 import {
   clearResponseMessages,
@@ -27,7 +29,8 @@ import {
 export class AuthenticationEffects {
   constructor(
     private actions$: Actions,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private localStorageService: LocalStorageService
   ) {}
   login$ = createEffect(() =>
     this.actions$.pipe(
@@ -36,6 +39,13 @@ export class AuthenticationEffects {
         this.authenticationService.login(action).pipe(
           mergeMap((userRes) => {
             if (userRes.code == 0) {
+              this.localStorageService.setUserInLocalStorage({
+                $id: userRes.data.$id,
+                Id: userRes.data.Id,
+                Name: userRes.data.Name,
+                Email: userRes.data.Email,
+                Token: userRes.data.Token,
+              });
               return [
                 clearResponseMessages(),
                 loginUserSuccess(),

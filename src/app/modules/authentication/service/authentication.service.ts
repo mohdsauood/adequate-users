@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { LocalStorageService } from 'src/app/common/service/local-storage/local-storage.service';
 import { environment } from 'src/environments/environment';
 import { LoginUser, RegisterUser, UserRes } from '../model/user/users.model';
 
@@ -8,17 +9,27 @@ import { LoginUser, RegisterUser, UserRes } from '../model/user/users.model';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  constructor(private http: HttpClient) {}
+  private avoidInterceptorHttp: HttpClient;
+  constructor(
+    private handler: HttpBackend,
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {
+    this.avoidInterceptorHttp = new HttpClient(handler);
+  }
 
   login({ email, password }: LoginUser): Observable<UserRes> {
-    return this.http.post<UserRes>(environment.apiUrl + '/authaccount/login', {
-      email,
-      password,
-    });
+    return this.avoidInterceptorHttp.post<UserRes>(
+      environment.apiUrl + '/authaccount/login',
+      {
+        email,
+        password,
+      }
+    );
   }
 
   register({ email, password, name }: RegisterUser): Observable<UserRes> {
-    return this.http.post<UserRes>(
+    return this.avoidInterceptorHttp.post<UserRes>(
       environment.apiUrl + '/authaccount/registration',
       {
         name,
@@ -26,5 +37,9 @@ export class AuthenticationService {
         password,
       }
     );
+  }
+
+  logout() {
+    this.localStorageService.deleteCurrentUserFromLocalStorage();
   }
 }
