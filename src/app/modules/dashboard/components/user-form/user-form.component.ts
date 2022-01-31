@@ -19,7 +19,7 @@ export class UserFormComponent implements OnInit {
   isEdit!: boolean;
   userForm = new FormGroup({
     name: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
     location: new FormControl('', Validators.required),
   });
   error = '';
