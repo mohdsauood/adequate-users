@@ -8,6 +8,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserFormComponent } from 'src/app/modules/dashboard/components/user-form/user-form.component';
 import { selectDashboardisLoading } from 'src/app/modules/dashboard/store/selector/dashboard.selector';
 import { selectAuthenticationIsLoading } from 'src/app/modules/authentication/store/selector/authentication.selector';
+import { setUserFormType } from 'src/app/modules/dashboard/store/action/dashboard.actions';
+import { UserFormType } from 'src/app/modules/dashboard/enums/formTypeEnum';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -50,6 +52,7 @@ export class NavbarComponent implements OnInit {
   }
 
   addUser(): void {
+    this.store.dispatch(setUserFormType({ formType: UserFormType.ADD }));
     const modalRef = this.modalService.open(UserFormComponent, {
       centered: true,
     });
